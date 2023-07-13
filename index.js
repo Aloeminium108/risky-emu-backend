@@ -2,7 +2,6 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const { Sequelize } = require('sequelize')
 
 // CONFIGURATION / MIDDLEWARE
 require('dotenv').config()
@@ -19,10 +18,11 @@ app.get('/', (req, res) => {
 // CONTROLLERS 
 app.use('/featured', featuredController)
 app.use('/forum', forumController)
+app.use('/threads', threadController)
 app.use('/editor', program_editorController)
-app.use('/help', helpController)
+
 
 // LISTEN
 app.listen(process.env.PORT, () => {
-    console.log(`Holding on by a thread on: ${process.env.PORT}`)
+    console.log(`Hanging on by a thread on: ${process.env.PORT}`)
 })
