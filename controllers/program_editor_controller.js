@@ -1,4 +1,4 @@
-const program_editor = require('express').Router()
+const programs = require('express').Router()
 const db = require('../models')
 // const { fill in models here } = db
 // const { Op } = require('sequelize')
@@ -6,4 +6,4 @@ const db = require('../models')
 
 
 // exports
-module.exports = program_editor
+module.exports = programs

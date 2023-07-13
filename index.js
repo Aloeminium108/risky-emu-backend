@@ -17,9 +17,8 @@ app.get('/', (req, res) => {
 
 // CONTROLLERS 
 app.use('/featured', featuredController)
-app.use('/forum', forumController)
 app.use('/threads', threadController)
-app.use('/editor', program_editorController)
+app.use('/programs', programsController)
 
 
 // LISTEN
