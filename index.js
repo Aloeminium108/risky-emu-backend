@@ -1,12 +1,14 @@
-// DEPENDENCIES
+// MODULES AND GLOBALS
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const defineCurrentUser = require('./middleware/defineCurrentUser')
 
-// CONFIGURATION / MIDDLEWARE
+// EXPRESS SETTINGS
 require('dotenv').config()
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
+app.use(defineCurrentUser)
 
 // ROOT
 app.get('/', (req, res) => {
@@ -16,9 +18,11 @@ app.get('/', (req, res) => {
 })
 
 // CONTROLLERS 
-app.use('/featured', featuredController)
-app.use('/threads', threadController)
-app.use('/programs', programsController)
+app.use('/authentication', require('./controllers/authentication'))
+app.use('/discussion', require('./controllers/discussion_controller'))
+app.use('/featured', require('./controllers/featured_controller'))
+app.use('/program', require('./controllers/program_controller'))
+app.use('/user', require('./controllers/user_data_controller'))
 
 
 // LISTEN

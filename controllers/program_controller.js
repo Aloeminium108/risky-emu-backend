@@ -1,7 +1,7 @@
 const programs = require('express').Router()
 const db = require('../models')
-// const { fill in models here } = db
-// const { Op } = require('sequelize')
+const { program, user_data } = db
+const { Op } = require('sequelize')
 
 //Find all programs
 
@@ -29,4 +29,4 @@ programs.delete('/programs', (req, res) => {
 
 
 // exports
-module.exports = programs
+module.exports = program_data
