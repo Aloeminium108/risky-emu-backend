@@ -1,13 +1,46 @@
 const users = require('express').Router()
 const db = require('../models')
-// const { fill in models here } = db
-// const { Op } = require('sequelize')
+const { user_data, program, featured, discussion } = db
+const { Op } = require('sequelize')
+const Authentication = require('../controllers/authentication')
 
 
-//Find all users 
+// FIND ALL USERS
 
-users.get('/', async(req, res) => {
-    res.send('hell yeah im a user!')
+users.get('/', async (req, res) => {
+  try {
+      const foundUsers = await user_data.findAll({
+          order: [ [ 'user_id', 'ASC'] ],
+          where: {
+              username: { [Op.like]: `%${req.query.name ? req.query.name : ''}%`}
+          },
+          include: [
+              {
+                  model: program,
+                  as: 'programs'
+              },
+              {
+                  model: discussion,
+                  as: 'discussions'
+              }
+          ]
+      })
+      res.status(200).json(foundUsers)
+  } catch (error) {
+      res.status(500).json(error)
+  }
+})
+
+// FIND A SPECIFIC USER
+users.get('/:id', async (req, res) => {
+  try {
+      const foundUser = await user_data.findOne({
+          where: { user_id: req.params.id }
+      })
+      res.status(200).json(foundUser)
+  } catch (error) {
+      res.status(500).json(error)
+  }
 })
 
 // Create a user|| route may not be needed
@@ -16,17 +49,39 @@ users.post('/', (req, res) => {
     res.send('Got a POST request')
   })
 
-//Update a user
+// UPDATE A USER
+users.put('/:id', async (req, res) => {
+  try {
+      const updatedUser = await user_data.update(req.body, {
+          where: {
+              user_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully updated ${updatedUser} user(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
+})
 
-users.put('/user', (req, res) => {
-    res.send('Got a PUT request at /user')
-  })
+// DELETE A USER
+users.delete('/:id', async (req, res) => {
+  try {
+      const deletedUser = await user_data.destroy({
+          where: {
+              user_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully deleted ${deletedUser} user(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
+})
 
-// Delete a user from the db
-
-users.delete('/user', (req, res) => {
-    res.send('Got a DELETE request at /user')
-  })
+// LOGOUT A USER
 
   
 // exports

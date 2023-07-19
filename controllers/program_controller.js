@@ -1,7 +1,9 @@
 const programs = require('express').Router()
 const db = require('../models')
-const { program, user_data } = db
+const { user_data, program, featured, discussion } = db
 const { Op } = require('sequelize')
+const Authentication = require('../controllers/authentication')
+
 
 //Find all programs
 
