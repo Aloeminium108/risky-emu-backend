@@ -39,7 +39,7 @@ discussions.get('/discussion/:id', async (req, res) => {
   }
 })
 
-// Create a discussion || route may not be needed
+// CREATE A DISCUSSION
 
 discussions.post('/', (req, res) => {
     res.send('Got a POST request')

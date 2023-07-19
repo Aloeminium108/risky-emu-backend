@@ -5,29 +5,65 @@ const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
 
-//Find all featured programs
-
-feature.get('/', async(req, res) => {
-    res.send('hell yeah im featured!')
+// FIND ALL FEATURED PROGRAMS
+feature.get('/', async (req, res) => {
+  try {
+      const foundFeatured = await featured.findAll({
+          order: [ [ 'featured_id', 'ASC'] ],
+          include: [
+              {
+                  model: user_data,
+                  as: 'user'
+              },
+              {
+                  model: program,
+                  as: 'programs'
+              }
+          ]
+      })
+      res.status(200).json(foundFeatured)
+  } catch (error) {
+      res.status(500).json(error)
+  }
 })
 
-// Create a featured program || route may not be needed
+// CREATE A FEATURED PROGRAM
 
 feature.post('/', (req, res) => {
     res.send('Got a POST request')
   })
 
-//Update a featured program
+// UPDATE A FEATURED PROGRAM
+feature.put('/:id', async (req, res) => {
+  try {
+      const updatedFeatured = await featured.update(req.body, {
+          where: {
+              featured_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully updated ${updatedFeatured} featured program(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
+})
 
-feature.put('/featured', (req, res) => {
-    res.send('Got a PUT request at /featured')
-  })
-
-// Delete a featured program from the feature page?
-
-feature.delete('/featured', (req, res) => {
-    res.send('Got a DELETE request at /featured')
-  })
+// DELETE A FEATURED PROGRAM
+feature.delete('/:id', async (req, res) => {
+  try {
+      const deletedFeatured = await featured.destroy({
+          where: {
+              featured_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully deleted ${deletedFeatured} featured program(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
+})
 
   
 // exports
