@@ -45,14 +45,21 @@ users.get('/:id', async (req, res) => {
 
 // CREATE A USER
 
-users.post('/', (req, res) => {
-    res.send('Got a POST request')
+users.post('/', async (req, res) => {
+    try {
+      const newUser = await user_data.create(req.body)
+      
+
+    } catch(err) {
+      console.log(err)
+      res.status(500).json(err)
+    }
   })
 
 // VERIFY LOGIN FOR USER
 
 users.post('/', async(req, res)=> {
-  
+
 })
 
 // UPDATE A USER
