@@ -26,4 +26,4 @@ router.post('/', async (req, res) => {
     res.json(req.currentUser)
   })
   
-  module.exports = router
+  module.exports = Authentication
