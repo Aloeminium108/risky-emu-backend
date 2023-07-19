@@ -43,11 +43,17 @@ users.get('/:id', async (req, res) => {
   }
 })
 
-// Create a user|| route may not be needed
+// CREATE A USER
 
 users.post('/', (req, res) => {
     res.send('Got a POST request')
   })
+
+// VERIFY LOGIN FOR USER
+
+users.post('/', async(req, res)=> {
+  
+})
 
 // UPDATE A USER
 users.put('/:id', async (req, res) => {
