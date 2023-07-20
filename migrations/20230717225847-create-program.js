@@ -3,25 +3,26 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('programs', {
-      id: {
+      program_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
-        type: Sequelize.INTEGER
-      },
-      author: {
+      user_id: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       text: {
-        type: Sequelize.TEXT
+        allowNull: false,
+        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       binary: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.ARRAY(Sequelize.INTEGER)
       },
       description: {
+        allowNull: false,
         type: Sequelize.TEXT
       },
       createdAt: {

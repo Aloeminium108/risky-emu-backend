@@ -8,14 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ user_data, program }) {
-      discussion.belongsTo(user_data, {
+    static associate({ user, program }) {
+      discussion.belongsTo(user, {
         foreignKey: 'user_id',
-        as: 'users'
+        as: 'author'
       }),
       discussion.belongsTo(program, {
         foreignKey: 'program_id',
-        as: 'programs'
+        as: 'program'
       })
     }
   }
@@ -28,10 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     },
     program_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     },
     content:{
@@ -41,8 +43,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'discussion',
-    tableName: 'discussion',
-    timestamps: false
+    tableName: 'discussions',
+    timestamps: true,
+    createdAt: true,
+    updatedAt: true
   });
   return discussion;
 };

@@ -3,22 +3,22 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('discussions', {
-      id: {
+      discussion_id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id: {
-        type: Sequelize.INTEGER
-      },
-      author: {
+      user_id: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       program_id: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       content: {
+        allowNull: false,
         type: Sequelize.TEXT
       },
       createdAt: {

@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ user_data, discussion, featured}) {
-      program.belongsTo(user_data, {
+    static associate({ user, discussion, feature }) {
+      program.belongsTo(user, {
         foreignKey: 'user_id',
         as: 'users'
       }),
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'program_id',
         as: 'discussions'
       }),
-      program.hasMany(featured, {
+      program.belongsTo(feature, {
         foreignKey: 'program_id',
         as: 'featured'
       })
@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     },
     text:{
@@ -39,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: []
     },
     binary:{
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
       defaultValue: []
     },
@@ -50,8 +51,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'program',
-    tableName: 'program',
-    timestamps: false
+    tableName: 'programs',
+    timestamps: true,
+    createdAt: true,
+    updatedAt: true
   });
   return program;
 };
