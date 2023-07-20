@@ -1,6 +1,6 @@
 const discussions = require('express').Router()
 const db = require('../models')
-const { user_data, program, featured, discussion } = db
+const { user, program, discussion } = db
 const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
@@ -12,7 +12,7 @@ discussions.get('/', async (req, res) => {
       order: [['discussion_id', 'ASC']],
       include: [
         {
-          model: user_data,
+          model: user,
           as: 'user'
         },
         {

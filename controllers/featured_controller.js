@@ -1,6 +1,6 @@
 const featuredPrograms = require('express').Router()
 const db = require('../models')
-const { user_data, program, featured, discussion } = db
+const { user, program, feature } = db
 const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
@@ -8,11 +8,11 @@ const Authentication = require('../controllers/authentication')
 // FIND ALL FEATURED PROGRAMS
 featuredPrograms.get('/', async (req, res) => {
   try {
-    const foundFeatured = await featured.findAll({
+    const foundFeatured = await feature.findAll({
       order: [['featured_id', 'ASC']],
       include: [
         {
-          model: user_data,
+          model: user,
           as: 'user'
         },
         {
@@ -35,7 +35,7 @@ featuredPrograms.post('/', (req, res) => {
 // UPDATE A FEATURED PROGRAM
 featuredPrograms.put('/:id', async (req, res) => {
   try {
-    const updatedFeatured = await featured.update(req.body, {
+    const updatedFeatured = await feature.update(req.body, {
       where: {
         featured_id: req.params.id
       }
@@ -51,7 +51,7 @@ featuredPrograms.put('/:id', async (req, res) => {
 // DELETE A FEATURED PROGRAM
 featuredPrograms.delete('/:id', async (req, res) => {
   try {
-    const deletedFeatured = await featured.destroy({
+    const deletedFeatured = await feature.destroy({
       where: {
         featured_id: req.params.id
       }

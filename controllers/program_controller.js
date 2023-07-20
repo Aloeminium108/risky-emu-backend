@@ -1,6 +1,6 @@
 const programs = require('express').Router()
 const db = require('../models')
-const { user_data, program, featured, discussion } = db
+const { user, program } = db
 const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
@@ -12,7 +12,7 @@ programs.get('/', async (req, res) => {
       order: [['program_id', 'ASC']],
       include: [
         {
-          model: user_data,
+          model: user,
           as: 'user'
         }
       ]

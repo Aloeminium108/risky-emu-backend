@@ -1,6 +1,6 @@
 const users = require('express').Router()
 const db = require('../models')
-const { user_data, program, featured, discussion } = db
+const { user, program, discussion } = db
 const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
@@ -8,7 +8,7 @@ const Authentication = require('../controllers/authentication')
 // FIND ALL USERS
 users.get('/', async (req, res) => {
   try {
-    const foundUsers = await user_data.findAll({
+    const foundUsers = await user.findAll({
       order: [['user_id', 'ASC']],
       where: {
         username: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
@@ -33,7 +33,7 @@ users.get('/', async (req, res) => {
 // FIND A SPECIFIC USER
 users.get('/:id', async (req, res) => {
   try {
-    const foundUser = await user_data.findOne({
+    const foundUser = await user.findOne({
       where: { user_id: req.params.id }
     })
     res.status(200).json(foundUser)
@@ -46,7 +46,7 @@ users.get('/:id', async (req, res) => {
 users.post('/', async (req, res) => {
   let { password, ...rest } = req.body
 
-  const user = await user_data.create({
+  const user = await user.create({
     ...rest,
     password_digest: await bcrypt.hash(password, 10)
   })
@@ -57,7 +57,7 @@ users.post('/', async (req, res) => {
 // UPDATE A USER
 users.put('/:id', async (req, res) => {
   try {
-    const updatedUser = await user_data.update(req.body, {
+    const updatedUser = await user.update(req.body, {
       where: {
         user_id: req.params.id
       }
@@ -73,7 +73,7 @@ users.put('/:id', async (req, res) => {
 // DELETE A USER
 users.delete('/:id', async (req, res) => {
   try {
-    const deletedUser = await user_data.destroy({
+    const deletedUser = await user.destroy({
       where: {
         user_id: req.params.id
       }
