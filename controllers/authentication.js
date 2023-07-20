@@ -3,11 +3,11 @@ const db = require('../models')
 const bcrypt = require('bcrypt')
 const jwt = require('json-web-token')
 
-const { user_data } = db
+const { user } = db
 
 authentication.post('/', async (req, res) => {
 
-  const user = await user_data.findOne({
+  const user = await user.findOne({
     where: { user: req.body.user }
   })
 
@@ -23,7 +23,29 @@ authentication.post('/', async (req, res) => {
 })
 
 authentication.get('/profile', async (req, res) => {
-  res.json(req.currentUser)
+
+  try {
+
+    const [authenticationMethod, token] = req.headers.authorization.split(' ')
+
+    if (authenticationMethod === 'Bearer') {
+    
+      const result = await jwt.decode(process.env.JWT_SECRET, token)
+      const { id } = result.value
+
+      let currentUser = await user.findOne({
+        where: {
+          userId: id
+        }
+      })
+
+      res.json(currentUser)
+    }
+
+  } catch {
+    res.json(null)
+  }
+  
 })
 
 module.exports = authentication
