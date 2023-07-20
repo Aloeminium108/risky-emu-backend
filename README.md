@@ -38,14 +38,6 @@ Make and share toy programs for the RISC-V instruction set!(Backend Edition)
 #### **sequelize** -
 > This application is using Sequelize to connect to a database and perform necessary operations without writing in raw SQL queries.
 
-## Project Usage
-
-Alice fill this in please
-
-## Project Roadmap
-
-Alice fill this in as well please
-
 ## Authors and Acknowledgment
 
 #### Primary Lead and Scrum Master - [Aloeminium108](https://github.com/Aloeminium108)
@@ -56,10 +48,6 @@ Alice fill this in as well please
 ## Contributing
 
 For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-If applicable
 
 ## Project Status
 
