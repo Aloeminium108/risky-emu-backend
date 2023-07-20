@@ -6,7 +6,6 @@ const Authentication = require('../controllers/authentication')
 
 
 // FIND ALL USERS
-
 users.get('/', async (req, res) => {
   try {
       const foundUsers = await user_data.findAll({
@@ -44,7 +43,6 @@ users.get('/:id', async (req, res) => {
 })
 
 // Create a user|| route may not be needed
-
 users.post('/', (req, res) => {
     res.send('Got a POST request')
   })
@@ -85,4 +83,4 @@ users.delete('/:id', async (req, res) => {
 
   
 // exports
-module.exports = user
+module.exports = users
