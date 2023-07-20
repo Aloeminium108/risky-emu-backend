@@ -28,10 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     },
     program_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     },
     content:{
@@ -42,7 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'discussion',
     tableName: 'discussion',
-    timestamps: false
+    timestamps: true,
+    createdAt: true,
+    updatedAt: true
   });
   return discussion;
 };

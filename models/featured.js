@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate( { program }) {
-      featured.belongsTo(program, {
+      featured.hasOne(program, {
         foreignKey: 'program_id',
-        as: 'programs'
+        as: 'program'
       })
     }
   }
@@ -25,13 +25,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     program_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'featured',
     tableName: 'featured',
-    timestamps: false
+    timestamps: true,
+    createdAt: true,
+    updatedAt: false
   });
   return featured;
 };

@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
-    hash:{
+    password_digest:{
       type: DataTypes.TEXT,
       allowNull: false
     }
@@ -38,7 +38,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'user_data',
     tableName: 'user_data',
-    timestamps: false
+    timestamps: true,
+    createdAt: true,
+    updatedAt: false
   });
   return user_data;
 };

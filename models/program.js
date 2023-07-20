@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'program_id',
         as: 'discussions'
       }),
-      program.hasMany(featured, {
+      program.belongsToMany(featured, {
         foreignKey: 'program_id',
         as: 'featured'
       })
@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id:{
       type: DataTypes.INTEGER,
+      foreignKey: true,
       allowNull: false
     },
     text:{
@@ -39,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: []
     },
     binary:{
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
       allowNull: false,
       defaultValue: []
     },
@@ -51,7 +52,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'program',
     tableName: 'program',
-    timestamps: false
+    timestamps: true,
+    createdAt: true,
+    updatedAt: true
   });
   return program;
 };
