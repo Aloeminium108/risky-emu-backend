@@ -10,9 +10,13 @@ app.use(express.urlencoded({ extended: true }))
 app.use(defineCurrentUser)
 
 // CORS is necessary for local testing but breaks in Vercel
-if (process.env.LOCAL) {
+if (process.env.LOCAL && parseInt(process.env.LOCAL) === 1) {
+  const corsOptions = {
+    origin: process.env.ORIGIN,
+    credentials:  true
+  }
   const cors = require('cors')
-  app.use(cors);
+  app.use(cors(corsOptions))
 }
 
 // ROOT
