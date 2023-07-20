@@ -26,7 +26,7 @@ users.get('/', async (req, res) => {
       })
       res.status(200).json(foundUsers)
   } catch (error) {
-      res.status(500).json(error)
+      res.status(500).json({ error: error })
   }
 })
 
@@ -49,7 +49,6 @@ users.post('/', async (req, res) => {
 
   const user = await user_data.create({
       ...rest,
-      role: 'reviewer',
       password_digest: await bcrypt.hash(password, 10)
   })
 
