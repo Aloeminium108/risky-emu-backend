@@ -5,24 +5,60 @@ const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
 
-//Find all programs
-programs.get('/', async(req, res) => {
-  res.send('hell yeah im a program!')
+// FIND ALL PROGRAMS
+programs.get('/', async (req, res) => {
+  try {
+      const foundPrograms = await program.findAll({
+          order: [ [ 'program_id', 'ASC'] ],
+          include: [
+              {
+                  model: user_data,
+                  as: 'user'
+              }
+          ]
+      })
+      res.status(200).json(foundPrograms)
+  } catch (error) {
+      res.status(500).json(error)
+  }
 })
 
-// Create a program || route may not be needed
+// CREATE A PROGRAM
+
 programs.post('/', (req, res) => {
   res.send('Got a POST request')
 })
 
-//Update a program
-programs.put('/programs', (req, res) => {
-  res.send('Got a PUT request at /programs')
+// UPDATE A PROGRAM
+programs.put('/:id', async (req, res) => {
+  try {
+      const updatedProgram = await program.update(req.body, {
+          where: {
+              program_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully updated ${updatedProgram} program(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
 })
 
-// Delete a program from the program page?
-programs.delete('/programs', (req, res) => {
-  res.send('Got a DELETE request at /programs')
+// DELETE A PROGRAM
+programs.delete('/:id', async (req, res) => {
+  try {
+      const deletedProgram = await program.destroy({
+          where: {
+              program_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully deleted ${deletedProgram} program(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
 })
 
 

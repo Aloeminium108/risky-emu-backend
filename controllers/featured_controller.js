@@ -5,24 +5,64 @@ const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
 
-//Find all featured programs
-featuredPrograms.get('/', async(req, res) => {
-  res.send('hell yeah im featured!')
+// FIND ALL FEATURED PROGRAMS
+featuredPrograms.get('/', async (req, res) => {
+  try {
+      const foundFeatured = await featured.findAll({
+          order: [ [ 'featured_id', 'ASC'] ],
+          include: [
+              {
+                  model: user_data,
+                  as: 'user'
+              },
+              {
+                  model: program,
+                  as: 'programs'
+              }
+          ]
+      })
+      res.status(200).json(foundFeatured)
+  } catch (error) {
+      res.status(500).json(error)
+  }
 })
 
-// Create a featured program || route may not be needed
+// CREATE A FEATURED PROGRAM
+
 featuredPrograms.post('/', (req, res) => {
-  res.send('Got a POST request')
+    res.send('Got a POST request')
+  })
+
+// UPDATE A FEATURED PROGRAM
+featuredPrograms.put('/:id', async (req, res) => {
+  try {
+      const updatedFeatured = await featured.update(req.body, {
+          where: {
+              featured_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully updated ${updatedFeatured} featured program(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
 })
 
-//Update a featured program
-featuredPrograms.put('/featured', (req, res) => {
-  res.send('Got a PUT request at /featured')
-})
-
-// Delete a featured program from the feature page?
-featuredPrograms.delete('/featured', (req, res) => {
-  res.send('Got a DELETE request at /featured')
+// DELETE A FEATURED PROGRAM
+featuredPrograms.delete('/:id', async (req, res) => {
+  try {
+      const deletedFeatured = await featured.destroy({
+          where: {
+              featured_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully deleted ${deletedFeatured} featured program(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
 })
 
   

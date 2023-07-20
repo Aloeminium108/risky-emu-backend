@@ -42,10 +42,25 @@ users.get('/:id', async (req, res) => {
   }
 })
 
-// Create a user|| route may not be needed
-users.post('/', (req, res) => {
-    res.send('Got a POST request')
+// CREATE A USER
+
+users.post('/', async (req, res) => {
+  let { password, ...rest } = req.body
+
+  const user = await user_data.create({
+      ...rest,
+      role: 'reviewer',
+      password_digest: await bcrypt.hash(password, 10)
   })
+
+  res.json(user)
+})
+
+// VERIFY LOGIN FOR USER
+
+users.post('/', async(req, res)=> {
+
+})
 
 // UPDATE A USER
 users.put('/:id', async (req, res) => {

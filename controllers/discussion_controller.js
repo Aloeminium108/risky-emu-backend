@@ -5,26 +5,77 @@ const { Op } = require('sequelize')
 const Authentication = require('../controllers/authentication')
 
 
-//Find all discussion 
-discussions.get('/', async(req, res) => {
-  res.send('hell yeah im a discussion!')
+// FIND ALL DISCUSSIONS
+discussions.get('/', async (req, res) => {
+  try {
+      const foundDiscussions = await discussion.findAll({
+          order: [ [ 'discussion_id', 'ASC'] ],
+          include: [
+              {
+                  model: user_data,
+                  as: 'user'
+              },
+              {
+                  model: program,
+                  as: 'programs'
+              }
+          ]
+      })
+      res.status(200).json(foundDiscussions)
+  } catch (error) {
+      res.status(500).json(error)
+  }
 })
 
-// Create a discussion || route may not be needed
+// FIND ALL DISCUSSIONS TIED TO A PROGRAM
+discussions.get('/discussion/:id', async (req, res) => {
+  try {
+      const foundDiscussions = await discussion.findAll({
+          where: { program_id: req.params.id }
+      })
+      res.status(200).json(foundDiscussions)
+  } catch (error) {
+      res.status(500).json(error)
+  }
+})
+
+// CREATE A DISCUSSION
+
 discussions.post('/', (req, res) => {
   res.send('Got a POST request')
 })
 
-//Update a discussion
-discussions.put('/discussions', (req, res) => {
-  res.send('Got a PUT request at /discussion')
+// UPDATE A DISCUSSION
+discussions.put('/:id', async (req, res) => {
+  try {
+      const updatedDiscussion = await discussion.update(req.body, {
+          where: {
+              discussion_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully updated ${updatedDiscussion} discussion(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
 })
 
-// Delete a discussion from the discussion page?
-discussions.delete('/discussions', (req, res) => {
-  res.send('Got a DELETE request at /discussion')
+// DELETE A DISCUSSION
+discussions.delete('/:id', async (req, res) => {
+  try {
+      const deletedDiscussion = await discussion.destroy({
+          where: {
+              discussion_id: req.params.id
+          }
+      })
+      res.status(200).json({
+          message: `Successfully deleted ${deletedDiscussion} discussion(s)`
+      })
+  } catch(err) {
+      res.status(500).json(err)
+  }
 })
 
-  
 // exports
 module.exports = discussions
