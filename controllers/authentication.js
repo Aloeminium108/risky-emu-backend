@@ -16,7 +16,7 @@ authentication.post('/', async (req, res) => {
       message: "Incorrect username or password"
     })
   } else {
-    const result = await jwt.encode(process.env.JWT_SECRET, { id: currentUser.userId })
+    const result = await jwt.encode(process.env.JWT_SECRET, { id: currentUser.user_id })
     res.status(200).json({ user: currentUser, token: result.value })
   }
 
@@ -31,11 +31,13 @@ authentication.get('/profile', async (req, res) => {
     if (authenticationMethod === 'Bearer') {
     
       const result = await jwt.decode(process.env.JWT_SECRET, token)
+
+      console.log(result)
       const { id } = result.value
 
       let currentUser = await user.findOne({
         where: {
-          userId: id
+          user_id: id
         }
       })
 
