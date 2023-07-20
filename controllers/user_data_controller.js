@@ -46,15 +46,16 @@ users.get('/:id', async (req, res) => {
 // CREATE A USER
 
 users.post('/', async (req, res) => {
-    try {
-      const newUser = await user_data.create(req.body)
-      
+  let { password, ...rest } = req.body
 
-    } catch(err) {
-      console.log(err)
-      res.status(500).json(err)
-    }
+  const user = await user_data.create({
+      ...rest,
+      role: 'reviewer',
+      password_digest: await bcrypt.hash(password, 10)
   })
+
+  res.json(user)
+})
 
 // VERIFY LOGIN FOR USER
 
