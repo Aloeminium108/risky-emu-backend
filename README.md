@@ -2,13 +2,22 @@
 
 Make and share toy programs for the RISC-V instruction set!(Backend Edition)
 
-## Installation
+## Local Installation
 
 1. Fork the current repository and clone it to your local machine.
 2. Once cloned, open in a code editor of your choice (this application was created in VSCode).
 3. Open a terminal within your code editor and used the command 'npm i' to install the required packages and dependencies.
-4. If applicable, create a .env file and fill in the enviroment variables for the program. Likely environemtn variables for the backend will be "PORT", "JWT_SECRET", and PGAdmin information
-5. Once all steps have been completed you can run the start script to begin running locally on your machine.
+4. Create a .env file and fill in the enviroment variables for the program. The environment variables for the backend are:
+  - **PORT:** Port for the server to run on. Anything above 1024 should be fine. Ensure that this port is available and that it matches the port used in the **REACT_APP_SERVER_URL** environment variable on the frontend.
+  - **ORIGIN:** URL for the frontend. This will most likely be `http://localhost:[PORT]` where `PORT` is the port that the *frontend* is running on. Note that this should *not* be the same port that is specified for the backend.
+  - **LOCAL:** Tells the server whether to use settings specific to local use. For local installation set to 1.
+  - **POSTGRES_\*:** There are 5 environment variables for connecting to a remote database. If using Vercel, these should match the database environment variables that are assigned to the backend deployment when the backend is linked to a postgresql database. The essential environment variables that need to be added are:
+    - **POSTGRES_DATABASE**
+    - **POSTGRES_HOST** 
+    - **POSTGRES_PASSWORD** 
+    - **POSTGRES_URL** 
+    - **POSTGRES_USER** 
+5. Once all steps have been completed you can run the start script (`npm start`) to begin running locally on your machine.
 
 ## Technologies Used
 
