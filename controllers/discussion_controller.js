@@ -13,11 +13,11 @@ discussions.get('/', async (req, res) => {
       include: [
         {
           model: user,
-          as: 'user'
+          as: 'author'
         },
         {
           model: program,
-          as: 'programs'
+          as: 'program'
         }
       ]
     })

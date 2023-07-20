@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ user, program }) {
       discussion.belongsTo(user, {
         foreignKey: 'user_id',
-        as: 'users'
+        as: 'author'
       }),
       discussion.belongsTo(program, {
         foreignKey: 'program_id',
-        as: 'programs'
+        as: 'program'
       })
     }
   }
