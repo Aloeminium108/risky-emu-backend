@@ -1,6 +1,5 @@
 // MODULES AND GLOBALS
 const express = require('express')
-// const cors = require('cors')
 const app = express()
 const defineCurrentUser = require('./middleware/defineCurrentUser')
 
@@ -9,6 +8,12 @@ require('dotenv').config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(defineCurrentUser)
+
+// CORS is necessary for local testing but breaks in Vercel
+if (process.env.LOCAL) {
+  const cors = require('cors')
+  app.use(cors);
+}
 
 // ROOT
 app.get('/', (req, res) => {
