@@ -12,9 +12,9 @@ authentication.post('/', async (req, res) => {
   })
 
   if (!user || !await bcrypt.compare(req.body.password, user.password_digest)) {
-    res.status(401).json({ 
+    res.status(401).json({
       message: "Incorrect username or password"
-    }) 
+    })
   } else {
     const result = await jwt.encode(process.env.JWT_SECRET, { id: user.userId })
     res.status(200).json({ user: user, token: result.value })

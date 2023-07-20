@@ -12,9 +12,9 @@ app.use(defineCurrentUser)
 
 // ROOT
 app.get('/', (req, res) => {
-    res.status(200).json({
-        message: 'Welcome to the Risky-Emu API'
-    })
+  res.status(200).json({
+    message: 'Welcome to the Risky-Emu API'
+  })
 })
 
 // CONTROLLERS 
@@ -27,5 +27,5 @@ app.use('/user', require('./controllers/user_data_controller'))
 
 // LISTEN
 app.listen(process.env.PORT, () => {
-    console.log(`Hanging on by a thread on: ${process.env.PORT}`)
+  console.log(`Hanging on by a thread on: ${process.env.PORT}`)
 })
