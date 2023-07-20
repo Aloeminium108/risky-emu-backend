@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'program_id',
         as: 'discussions'
       }),
-      program.belongsToMany(featured, {
+      program.belongsTo(featured, {
         foreignKey: 'program_id',
         as: 'featured'
       })
