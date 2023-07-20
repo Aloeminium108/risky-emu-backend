@@ -1,8 +1,8 @@
 const users = require('express').Router()
 const db = require('../models')
+const bcrypt = require('bcrypt')
 const { user, program, discussion } = db
 const { Op } = require('sequelize')
-const Authentication = require('../controllers/authentication')
 
 
 // FIND ALL USERS
@@ -46,12 +46,12 @@ users.get('/:id', async (req, res) => {
 users.post('/', async (req, res) => {
   let { password, ...rest } = req.body
 
-  const user = await user.create({
+  const newUser = await user.create({
     ...rest,
     password_digest: await bcrypt.hash(password, 10)
   })
 
-  res.json(user)
+  res.json(newUser)
 })
 
 // UPDATE A USER

@@ -7,17 +7,17 @@ const { user } = db
 
 authentication.post('/', async (req, res) => {
 
-  const user = await user.findOne({
-    where: { user: req.body.user }
+  const currentUser = await user.findOne({
+    where: { username: req.body.username }
   })
 
-  if (!user || !await bcrypt.compare(req.body.password, user.password_digest)) {
+  if (!currentUser || !await bcrypt.compare(req.body.password, currentUser.password_digest)) {
     res.status(401).json({
       message: "Incorrect username or password"
     })
   } else {
-    const result = await jwt.encode(process.env.JWT_SECRET, { id: user.userId })
-    res.status(200).json({ user: user, token: result.value })
+    const result = await jwt.encode(process.env.JWT_SECRET, { id: currentUser.userId })
+    res.status(200).json({ user: currentUser, token: result.value })
   }
 
 })
@@ -45,7 +45,7 @@ authentication.get('/profile', async (req, res) => {
   } catch {
     res.json(null)
   }
-  
+
 })
 
 module.exports = authentication
