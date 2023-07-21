@@ -55,7 +55,6 @@ programs.get('/:id', async (req, res) => {
 programs.post('/', async (req, res) => {
 
   if (req.currentUser === null) {
-    console.log('Current user:', req.currentUser)
     return res.status(403).json({ message: 'You must be logged in to post a program' })
   }
 
@@ -75,6 +74,17 @@ programs.post('/', async (req, res) => {
 
 // UPDATE A PROGRAM
 programs.put('/:id', async (req, res) => {
+
+  const foundProgram = await program.findOne({
+    where: {
+      program_id: req.params.id
+    }
+  })
+
+  if (req.currentUser === null || req.currentUser.user_id !== foundProgram.user_id) {
+    return res.status(403).json({ message: 'You must be logged in as the author to edit this program' })
+  }
+
   try {
     const updatedProgram = await program.update({ binary: Buffer.from(req.body.binary), ...req.body }, {
       where: {
