@@ -13,6 +13,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      title: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       source_code: {
         allowNull: false,
         type: Sequelize.TEXT

@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true,
       allowNull: false
     },
+    title:{
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     source_code:{
       type: DataTypes.TEXT,
       allowNull: false
