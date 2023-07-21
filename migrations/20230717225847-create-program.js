@@ -13,9 +13,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      text: {
+      source_code: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.TEXT
       },
       binary: {
         allowNull: false,

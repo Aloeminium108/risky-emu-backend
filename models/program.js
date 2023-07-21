@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true,
       allowNull: false
     },
-    text:{
-      type: DataTypes.ARRAY(DataTypes.STRING),
+    source_code:{
+      type: DataTypes.TEXT,
       allowNull: false,
       defaultValue: []
     },
