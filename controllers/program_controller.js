@@ -25,8 +25,9 @@ programs.get('/', async (req, res) => {
 
 // FIND PROGRAM BY ID
 programs.get('/:id', async (req, res) => {
+
   try {
-    const foundProgram = await program.findOne(req.body, {
+    const foundProgram = await program.findOne({
       where: {
         program_id: req.params.id
       },
@@ -45,6 +46,7 @@ programs.get('/:id', async (req, res) => {
       description: foundProgram.description
     })
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 })
@@ -74,13 +76,13 @@ programs.post('/', async (req, res) => {
 // UPDATE A PROGRAM
 programs.put('/:id', async (req, res) => {
   try {
-    const updatedProgram = await program.update(req.body, {
+    const updatedProgram = await program.update({ binary: Buffer.from(req.body.binary), ...req.body }, {
       where: {
         program_id: req.params.id
       }
     })
     res.status(200).json({
-      message: `Successfully updated ${updatedProgram} program(s)`
+      message: `Successfully updated`
     })
   } catch (err) {
     res.status(500).json(err)

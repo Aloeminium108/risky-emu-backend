@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ user, discussion, feature }) {
       program.belongsTo(user, {
         foreignKey: 'user_id',
-        as: 'users'
+        as: 'author'
       }),
       program.hasMany(discussion, {
         foreignKey: 'program_id',
