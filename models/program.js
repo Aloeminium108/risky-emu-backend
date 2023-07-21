@@ -36,13 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     source_code:{
       type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: []
+      allowNull: false
     },
     binary:{
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-      allowNull: false,
-      defaultValue: []
+      type: DataTypes.BLOB,
+      allowNull: false
     },
     description:{
       type: DataTypes.TEXT,

@@ -19,7 +19,7 @@ module.exports = {
       },
       binary: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+        type: Sequelize.BLOB
       },
       description: {
         allowNull: false,
