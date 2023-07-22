@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ user, discussion, feature }) {
       program.belongsTo(user, {
         foreignKey: 'user_id',
-        as: 'users'
+        as: 'author'
       }),
       program.hasMany(discussion, {
         foreignKey: 'program_id',
@@ -34,15 +34,17 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true,
       allowNull: false
     },
-    text:{
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false,
-      defaultValue: []
+    title:{
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    source_code:{
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     binary:{
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-      allowNull: false,
-      defaultValue: []
+      type: DataTypes.BLOB,
+      allowNull: false
     },
     description:{
       type: DataTypes.TEXT,

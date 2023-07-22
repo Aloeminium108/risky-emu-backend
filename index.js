@@ -28,10 +28,10 @@ app.get('/', (req, res) => {
 
 // CONTROLLERS 
 app.use('/authentication', require('./controllers/authentication'))
-app.use('/discussion', require('./controllers/discussion_controller'))
-app.use('/featured', require('./controllers/featured_controller'))
-app.use('/program', require('./controllers/program_controller'))
-app.use('/user', require('./controllers/user_data_controller'))
+app.use('/discussions', require('./controllers/discussion_controller'))
+app.use('/features', require('./controllers/featured_controller'))
+app.use('/programs', require('./controllers/program_controller'))
+app.use('/users', require('./controllers/user_data_controller'))
 
 
 // LISTEN

@@ -40,12 +40,38 @@ discussions.get('/discussion/:id', async (req, res) => {
 })
 
 // CREATE A DISCUSSION
-discussions.post('/', (req, res) => {
-  res.send('Got a POST request')
+discussions.post('/', async (req, res) => {
+
+  if (req.currentUser === null) {
+    return res.status(403).json({ message: 'You must be logged in to post a comment' })
+  }
+
+  try {
+    const newDiscussion = await discussion.create({
+      ...req.body
+    })
+
+    res.status(200).json(newDiscussion)
+
+  } catch (err) {
+    res.status(500).json(err)
+  }
+
 })
 
 // UPDATE A DISCUSSION
 discussions.put('/:id', async (req, res) => {
+
+  const foundDiscussion = discussion.findOne({
+    where: {
+      discussion_id: req.params.id
+    }
+  })
+
+  if (req.currentUser === null || req.currentUser.user_id !== foundDiscussion.user_id) {
+    return res.status(403).json({ message: 'You cannot edit this user\'s comment' })
+  }
+
   try {
     const updatedDiscussion = await discussion.update(req.body, {
       where: {
@@ -62,6 +88,17 @@ discussions.put('/:id', async (req, res) => {
 
 // DELETE A DISCUSSION
 discussions.delete('/:id', async (req, res) => {
+
+  const foundDiscussion = discussion.findOne({
+    where: {
+      discussion_id: req.params.id
+    }
+  })
+
+  if (req.currentUser === null || req.currentUser.user_id !== foundDiscussion.user_id) {
+    return res.status(403).json({ message: 'You cannot delete this user\'s comment' })
+  }
+
   try {
     const deletedDiscussion = await discussion.destroy({
       where: {

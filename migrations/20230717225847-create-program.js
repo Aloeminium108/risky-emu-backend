@@ -13,13 +13,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      text: {
+      title: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.STRING
+      },
+      source_code: {
+        allowNull: false,
+        type: Sequelize.TEXT
       },
       binary: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+        type: Sequelize.BLOB
       },
       description: {
         allowNull: false,
