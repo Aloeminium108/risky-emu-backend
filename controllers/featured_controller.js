@@ -1,8 +1,6 @@
 const featuredPrograms = require('express').Router()
 const db = require('../models')
 const { user, program, feature } = db
-const { Op } = require('sequelize')
-const Authentication = require('../controllers/authentication')
 
 
 // FIND ALL FEATURED PROGRAMS

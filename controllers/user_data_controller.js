@@ -1,7 +1,7 @@
 const users = require('express').Router()
 const db = require('../models')
 const bcrypt = require('bcrypt')
-const { user, program, discussion } = db
+const { user } = db
 const { Op } = require('sequelize')
 
 
