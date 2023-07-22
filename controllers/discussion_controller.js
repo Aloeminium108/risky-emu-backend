@@ -28,10 +28,17 @@ discussions.get('/', async (req, res) => {
 })
 
 // FIND ALL DISCUSSIONS TIED TO A PROGRAM
-discussions.get('/discussion/:id', async (req, res) => {
+discussions.get('/:id', async (req, res) => {
   try {
     const foundDiscussions = await discussion.findAll({
-      where: { program_id: req.params.id }
+      where: { program_id: req.params.id },
+      include: [
+        {
+          model: user,
+          as: 'author',
+          attributes: ['user_id', 'username']
+        }
+      ]
     })
     res.status(200).json(foundDiscussions)
   } catch (error) {
@@ -40,7 +47,7 @@ discussions.get('/discussion/:id', async (req, res) => {
 })
 
 // CREATE A DISCUSSION
-discussions.post('/', async (req, res) => {
+discussions.post('/:id', async (req, res) => {
 
   if (req.currentUser === null) {
     return res.status(403).json({ message: 'You must be logged in to post a comment' })
@@ -48,12 +55,14 @@ discussions.post('/', async (req, res) => {
 
   try {
     const newDiscussion = await discussion.create({
+      user_id: req.currentUser.user_id,
       ...req.body
     })
 
     res.status(200).json(newDiscussion)
 
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 
