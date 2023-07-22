@@ -19,7 +19,11 @@ Make and share toy programs for the RISC-V instruction set!(Backend Edition)
     - **POSTGRES_PASSWORD** 
     - **POSTGRES_URL** 
     - **POSTGRES_USER** 
-5. Once all steps have been completed you can run the start script (`npm start`) to begin running locally on your machine.
+5. Create, migrate, and seed the database
+  - `sequelize db:create --env development`
+  - `sequelize db:migrate --env development`
+  - `sequelize db:seed:all --env development`
+6. Once all steps have been completed you can run the start script (`npm start`) to begin running locally on your machine.
 
 ## Technologies Used
 
@@ -50,6 +54,11 @@ Make and share toy programs for the RISC-V instruction set!(Backend Edition)
 ## Contributing
 
 For major changes, please open an issue first to discuss what you would like to change.
+
+## Licensing
+
+N/A, this work is copyrighted by the authors.
+The risc-v-emulator package created for this project, however, is under the permissive free software license, ISC.
 
 ## Project Status
 
