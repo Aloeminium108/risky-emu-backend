@@ -7,15 +7,19 @@ const { user, program, feature } = db
 featuredPrograms.get('/', async (req, res) => {
   try {
     const foundFeatured = await feature.findAll({
-      order: [['featured_id', 'ASC']],
+      order: [['createdAt', 'ASC']],
       include: [
         {
-          model: user,
-          as: 'user'
-        },
-        {
           model: program,
-          as: 'programs'
+          as: 'program',
+          attributes: ['title', 'description'],
+          include: [
+            {
+              model: user,
+              as: 'author',
+              attributes: ['user_id', 'username']
+            }
+          ]
         }
       ]
     })
@@ -26,12 +30,29 @@ featuredPrograms.get('/', async (req, res) => {
 })
 
 // CREATE A FEATURED PROGRAM
-featuredPrograms.post('/', (req, res) => {
-  res.send('Got a POST request')
+featuredPrograms.post('/', async (req, res) => {
+
+  if (req.currentUser === null || req.currentUser.role !== 'admin') {
+    return res.status(403).json({ message: 'You must be an admin to add programs to the featured list' })
+  }
+
+  const { program_id } = req.body
+
+  const newFeature = await feature.create({
+    program_id: program_id
+  })
+
+  res.json(newFeature);
+  
 })
 
 // UPDATE A FEATURED PROGRAM
 featuredPrograms.put('/:id', async (req, res) => {
+
+  if (req.currentUser === null || req.currentUser.role !== 'admin') {
+    return res.status(403).json({ message: 'You must be an admin to add programs to modify the featured list' })
+  }
+
   try {
     const updatedFeatured = await feature.update(req.body, {
       where: {
@@ -48,10 +69,15 @@ featuredPrograms.put('/:id', async (req, res) => {
 
 // DELETE A FEATURED PROGRAM
 featuredPrograms.delete('/:id', async (req, res) => {
+
+  if (req.currentUser === null || req.currentUser.role !== 'admin') {
+    return res.status(403).json({ message: 'You must be an admin to remove programs from the featured list' })
+  }
+
   try {
     const deletedFeatured = await feature.destroy({
       where: {
-        featured_id: req.params.id
+        program_id: req.params.id
       }
     })
     res.status(200).json({

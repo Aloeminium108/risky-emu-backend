@@ -10,6 +10,7 @@ users.get('/', async (req, res) => {
   try {
     const foundUsers = await user.findAll({
       order: [['user_id', 'ASC']],
+      attributes: ['user_id', 'username'],
       where: {
         username: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
       }
@@ -24,7 +25,8 @@ users.get('/', async (req, res) => {
 users.get('/:id', async (req, res) => {
   try {
     const foundUser = await user.findOne({
-      where: { user_id: req.params.id }
+      where: { user_id: req.params.id },
+      attributes: ['user_id', 'username']
     })
     res.status(200).json(foundUser)
   } catch (error) {
@@ -38,10 +40,11 @@ users.post('/', async (req, res) => {
 
   const newUser = await user.create({
     ...rest,
+    role: 'guest',
     password_digest: await bcrypt.hash(password, 10)
   })
 
-  res.json(newUser)
+  res.json({ user_id: newUser.user_id, username: newUser.username })
 })
 
 // UPDATE A USER

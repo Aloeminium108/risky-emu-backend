@@ -15,6 +15,7 @@ module.exports = {
       },
       password_digest: {
         allowNull: false,
+        unique: true,
         type: Sequelize.TEXT
       },
       createdAt: {

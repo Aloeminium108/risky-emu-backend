@@ -32,7 +32,8 @@ programs.get('/:id', async (req, res) => {
       include: [
         {
           model: user,
-          as: 'author'
+          as: 'author',
+          attributes: ['user_id', 'username']
         }
       ]
     })
