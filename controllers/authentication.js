@@ -17,7 +17,7 @@ authentication.post('/', async (req, res) => {
     })
   } else {
     const result = await jwt.encode(process.env.JWT_SECRET, { id: currentUser.user_id })
-    res.status(200).json({ user: { user_id: currentUser.user_id, username: currentUser.username }, token: result.value })
+    res.status(200).json({ user: { user_id: currentUser.user_id, username: currentUser.username, role: currentUser.role }, token: result.value })
   }
 
 })
@@ -41,7 +41,7 @@ authentication.get('/profile', async (req, res) => {
         }
       })
 
-      res.json(currentUser)
+      res.json({ user_id: currentUser.user_id, username: currentUser.username, role: currentUser.role })
     }
 
   } catch {
