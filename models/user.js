@@ -33,6 +33,13 @@ module.exports = (sequelize, DataTypes) => {
     password_digest:{
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    role: {
+      type: DataTypes.ENUM(
+        'admin',
+        'guest'
+      ),
+      allowNull: false
     }
   }, {
     sequelize,
