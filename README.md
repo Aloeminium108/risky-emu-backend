@@ -11,6 +11,8 @@ Make and share toy programs for the RISC-V instruction set!(Backend Edition)
   - **PORT:** Port for the server to run on. Anything above 1024 should be fine. Ensure that this port is available and that it matches the port used in the **REACT_APP_SERVER_URL** environment variable on the frontend.
   - **ORIGIN:** URL for the frontend. This will most likely be `http://localhost:[PORT]` where `PORT` is the port that the *frontend* is running on. Note that this should *not* be the same port that is specified for the backend.
   - **LOCAL:** Tells the server whether to use settings specific to local use. For local installation set to 1.
+  - **JWT_SECRET:** Secret variable for generating JWTs. Use a string that is difficult to guess.
+  - **ADMIN_PASS:** Password for the admin account. Use a string that is difficult to guess.
   - **POSTGRES_\*:** There are 5 environment variables for connecting to a remote database. If using Vercel, these should match the database environment variables that are assigned to the backend deployment when the backend is linked to a postgresql database. The essential environment variables that need to be added are:
     - **POSTGRES_DATABASE**
     - **POSTGRES_HOST** 
