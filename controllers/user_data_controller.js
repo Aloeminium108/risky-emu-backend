@@ -40,6 +40,7 @@ users.post('/', async (req, res) => {
 
   const newUser = await user.create({
     ...rest,
+    role: 'guest',
     password_digest: await bcrypt.hash(password, 10)
   })
 

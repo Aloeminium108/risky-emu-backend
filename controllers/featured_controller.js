@@ -30,13 +30,16 @@ featuredPrograms.get('/', async (req, res) => {
 })
 
 // CREATE A FEATURED PROGRAM
-featuredPrograms.post('/', (req, res) => {
+featuredPrograms.post('/', async (req, res) => {
 
   if (req.currentUser === null || req.currentUser.role !== 'admin') {
     return res.status(403).json({ message: 'You must be an admin to add programs to the featured list' })
   }
 
-  res.send('Got a POST request')
+  const newFeature = await feature.create(req.body)
+
+  res.json(newFeature);
+  
 })
 
 // UPDATE A FEATURED PROGRAM
@@ -70,7 +73,7 @@ featuredPrograms.delete('/:id', async (req, res) => {
   try {
     const deletedFeatured = await feature.destroy({
       where: {
-        featured_id: req.params.id
+        program_id: req.params.id
       }
     })
     res.status(200).json({
