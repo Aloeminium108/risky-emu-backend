@@ -36,7 +36,11 @@ featuredPrograms.post('/', async (req, res) => {
     return res.status(403).json({ message: 'You must be an admin to add programs to the featured list' })
   }
 
-  const newFeature = await feature.create(req.body)
+  const { program_id } = req.body
+
+  const newFeature = await feature.create({
+    program_id: program_id
+  })
 
   res.json(newFeature);
   
