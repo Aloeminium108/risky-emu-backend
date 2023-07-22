@@ -12,17 +12,7 @@ users.get('/', async (req, res) => {
       order: [['user_id', 'ASC']],
       where: {
         username: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
-      },
-      include: [
-        {
-          model: program,
-          as: 'programs'
-        },
-        {
-          model: discussion,
-          as: 'discussions'
-        }
-      ]
+      }
     })
     res.status(200).json(foundUsers)
   } catch (error) {
@@ -56,6 +46,11 @@ users.post('/', async (req, res) => {
 
 // UPDATE A USER
 users.put('/:id', async (req, res) => {
+
+  if (req.currentUser === null || req.currentUser.user_id !== parseInt(req.params.id)) {
+    return res.status(403).json({ message: 'You cannot modify this user\'s account' })
+  }
+
   try {
     const updatedUser = await user.update(req.body, {
       where: {
@@ -72,6 +67,11 @@ users.put('/:id', async (req, res) => {
 
 // DELETE A USER
 users.delete('/:id', async (req, res) => {
+
+  if (req.currentUser === null || req.currentUser.user_id !== parseInt(req.params.id)) {
+    return res.status(403).json({ message: 'You cannot delete this user\'s account' })
+  }
+
   try {
     const deletedUser = await user.destroy({
       where: {
@@ -85,9 +85,6 @@ users.delete('/:id', async (req, res) => {
     res.status(500).json(err)
   }
 })
-
-// LOGOUT A USER
-
 
 // exports
 module.exports = users

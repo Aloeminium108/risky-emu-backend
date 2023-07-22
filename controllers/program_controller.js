@@ -101,6 +101,11 @@ programs.put('/:id', async (req, res) => {
 
 // DELETE A PROGRAM
 programs.delete('/:id', async (req, res) => {
+
+  if (req.currentUser === null || req.currentUser.user_id !== foundProgram.user_id) {
+    return res.status(403).json({ message: 'You must be logged in as the author to delete this program' })
+  }
+
   try {
     const deletedProgram = await program.destroy({
       where: {
@@ -108,7 +113,7 @@ programs.delete('/:id', async (req, res) => {
       }
     })
     res.status(200).json({
-      message: `Successfully deleted ${deletedProgram} program(s)`
+      message: `Successfully deleted ${deletedProgram.title}`
     })
   } catch (err) {
     res.status(500).json(err)
